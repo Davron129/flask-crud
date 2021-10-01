@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <table class="table">
+                {% for user in users %}
+                    <tr>
+                        <td>{{user.name}}</td>
+                        <td>{{user.age}}</td>
+                        <td>
+                            <button type="button" class="btn" onclick="deleteUser('{{user.name}}')">Delete</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr></tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        function deleteUser(user_name) {
+            fetch("http://localhost:5000/user/delete", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name": user_name
+                })
+            })
+            .then(() => {
+                window.location.reload()
+            })
+        }
+    </script>
+</body>
+</html>
